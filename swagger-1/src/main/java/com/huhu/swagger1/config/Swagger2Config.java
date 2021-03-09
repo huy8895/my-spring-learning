@@ -12,11 +12,13 @@ import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableSwagger2
@@ -24,11 +26,15 @@ import java.util.Arrays;
 public class Swagger2Config {
     @Bean
     public Docket api() {
-        return changeGlobalResponses(new Docket(DocumentationType.SWAGGER_2))
+        return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com/huhu/swagger1/controller".replace("/",".")))
                 .paths(PathSelectors.regex("/.*"))
                 .build()
+                .globalResponseMessage(RequestMethod.GET, globalResponses())
+                .globalResponseMessage(RequestMethod.PUT, globalResponses())
+                .globalResponseMessage(RequestMethod.POST, globalResponses())
+                .globalResponseMessage(RequestMethod.DELETE, globalResponses())
                 .apiInfo(apiEndPointsInfo());
     }
 
@@ -42,27 +48,21 @@ public class Swagger2Config {
                 .build();
     }
 
-    private Docket changeGlobalResponses(Docket docket) {
-        RequestMethod[] methodsToCustomize = {
-                RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT };
 
-        docket = docket.useDefaultResponseMessages(false);
-        for (RequestMethod methodToCustomize : methodsToCustomize) {
-            docket = docket
-                    .globalResponseMessage(methodToCustomize,
-                            Arrays.asList(
-                                    new ResponseMessageBuilder().code(
-                                            HttpStatus.INTERNAL_SERVER_ERROR.value())
-                                            .message("Server error Try again later")
-                                            .responseModel(new ModelRef(Problem.class.getSimpleName()))
-                                            .build(),
-                                    new ResponseMessageBuilder().code(
-                                            HttpStatus.BAD_REQUEST.value())
-                                            .message("Bad Request")
-                                            .responseModel(new ModelRef(Problem.class.getSimpleName()))
-                                            .build()));
-        }
-
-        return docket;
+    public List<ResponseMessage> globalResponses() {
+        return Arrays.asList(
+                new ResponseMessageBuilder().code(200).message("OK")
+                        .responseModel(new ModelRef(Problem.class.getSimpleName())).build(),
+                new ResponseMessageBuilder().code(400).message("Bad Request")
+                        .responseModel(new ModelRef(Problem.class.getSimpleName())).build(),
+                new ResponseMessageBuilder().code(401).message("Unauthoried")
+                        .responseModel(new ModelRef(Problem.class.getSimpleName())).build(),
+                new ResponseMessageBuilder().code(403).message("Forbidden")
+                        .responseModel(new ModelRef(Problem.class.getSimpleName())).build(),
+                new ResponseMessageBuilder().code(404).message("Not Found")
+                        .responseModel(new ModelRef(Problem.class.getSimpleName())).build(),
+                new ResponseMessageBuilder().code(500).message("Internal Error")
+                        .responseModel(new ModelRef(Problem.class.getSimpleName())).build()
+        );
     }
 }
