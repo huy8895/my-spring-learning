@@ -26,7 +26,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 
-@ControllerAdvice @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE) 
+@ControllerAdvice
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class GlobalControllerAdvice //extends ResponseEntityExceptionHandler  
 {
 	/**
