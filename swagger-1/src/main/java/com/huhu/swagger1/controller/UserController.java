@@ -1,5 +1,6 @@
 package com.huhu.swagger1.controller;
 
+import com.huhu.swagger1.model.Problem;
 import com.huhu.swagger1.model.User;
 import com.huhu.swagger1.repository.UserRepository;
 import io.swagger.annotations.*;
@@ -19,9 +20,9 @@ public class UserController {
     @ApiOperation(value = "Xem danh sách User")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Thành công"),
-            @ApiResponse(code = 401, message = "Chưa xác thực"),
-            @ApiResponse(code = 403, message = "Truy cập bị cấm"),
-            @ApiResponse(code = 404, message = "Không tìm thấy")
+            @ApiResponse(code = 401, message = "Chưa xác thực", response = Problem.class),
+            @ApiResponse(code = 403, message = "Truy cập bị cấm", response = Problem.class),
+            @ApiResponse(code = 404, message = "Không tìm thấy", response = Problem.class)
     })
     @GetMapping("/users")
     public List<User> getAllUsers() {
