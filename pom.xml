@@ -6,6 +6,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>paiza</module>
+        <module>spring-getting-started-guides</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
