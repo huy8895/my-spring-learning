@@ -1,5 +1,6 @@
 package com.example.uploadingfiles;
 
+import com.example.uploadingfiles.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -31,8 +32,7 @@ public class FileUploadController {
                                                .map(path -> MvcUriComponentsBuilder
                                                        .fromMethodName(FileUploadController.class,
                                                                "serveFile",
-                                                               path.getFileName()
-                                                                   .toString())
+                                                               path.getFileName().toString())
                                                        .build()
                                                        .toUri()
                                                        .toString())
@@ -47,8 +47,10 @@ public class FileUploadController {
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
         Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+        return ResponseEntity.ok()
+                             .header(HttpHeaders.CONTENT_DISPOSITION,
+                                     "attachment; filename=\"" + file.getFilename() + "\"")
+                             .body(file);
     }
 
     @PostMapping("/")
@@ -64,7 +66,8 @@ public class FileUploadController {
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.notFound()
+                             .build();
     }
 
 }
