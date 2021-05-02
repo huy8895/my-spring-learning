@@ -6,6 +6,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>paiza</module>
+        <module>viblo-demo</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -1,0 +1,5 @@
+amazonProperties:
+  endpointUrl: https://s3.ap-southeast-1.amazonaws.com
+  accessKey: AKIAYDCAOJVMNK5CU3PU
+  secretKey: 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
+  bucketName: my-bucket-huytv
