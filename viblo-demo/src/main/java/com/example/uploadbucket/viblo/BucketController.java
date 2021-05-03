@@ -1,4 +1,4 @@
-package com.example.uploadbucket;
+package com.example.uploadbucket.viblo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

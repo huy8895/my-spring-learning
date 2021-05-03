@@ -26,10 +26,6 @@ public class S3Config {
     @Value("${amazonProperties.secretKey}")
     private String awsKey;
 
-    public S3Config() {
-        System.out.println("region = " + region);
-        System.out.println("awsId = " + awsId);
-    }
 
     @PostConstruct
     private void initializeAmazon() {

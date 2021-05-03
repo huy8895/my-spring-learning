@@ -2,10 +2,11 @@ package com.example.uploadbucket;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
 
 public interface S3Services {
-    ByteArrayOutputStream downloadFile(String keyName);
+    byte[] downloadFile(String fileName);
 
-    void uploadFile(String keyName, MultipartFile file);
+    String uploadFile(MultipartFile multipartFile);
+
+    String deleteFile(String fileName);
 }

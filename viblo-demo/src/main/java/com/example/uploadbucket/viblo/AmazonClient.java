@@ -1,4 +1,4 @@
-package com.example.uploadbucket;
+package com.example.uploadbucket.viblo;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
