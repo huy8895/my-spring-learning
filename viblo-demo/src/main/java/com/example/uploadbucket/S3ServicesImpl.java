@@ -55,6 +55,7 @@ public class S3ServicesImpl implements S3Services {
         try {
             File convertedFile = convertMultiPartToFile(file);
             s3client.putObject(bucketName, fileName, convertedFile);
+            convertedFile.delete();
         } catch (IOException ioe) {
             logger.error("IOException: " + ioe.getMessage());
         } catch (AmazonServiceException ase) {
