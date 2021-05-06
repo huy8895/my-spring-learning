@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<springProperty scope="context" name="application_name" source="spring.application.name" />
+
+	<appender name="jsonConsoleAppender"
+			  class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!--            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>-->
+			<pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) [%10thread] %cyan(%-40logger{36}) - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="logsAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/logs/app-user-profile.log</file>
+		<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/logs/app-user-profile-%d{yyyy-MM-dd}-%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>90</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n
+			</Pattern>
+			<pattern>%highlight(...) %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<!--output messages of exact level only -->
+			<onMatch>DENY</onMatch>
+		</filter>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<!--output messages of exact level only -->
+			<onMatch>DENY</onMatch>
+		</filter>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<!--output messages of exact level only -->
+			<onMatch>ACCEPT</onMatch>
+		</filter>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<!--output messages of exact level only -->
+			<onMatch>ACCEPT</onMatch>
+		</filter>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="jsonConsoleAppender" />
+		<appender-ref ref="logsAppender" />
+	</root>
+</configuration>
