@@ -1,4 +1,4 @@
-package com.huy8895.restservice;
+package com.huy8895.restservice.model;
 
 public class Greeting {
 
