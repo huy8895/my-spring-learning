@@ -7,6 +7,9 @@
     <modules>
         <module>paiza</module>
         <module>viblo-demo</module>
+        <module>getting-started-guides</module>
+        <module>swagger</module>
+        <module>anotation-customize</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
