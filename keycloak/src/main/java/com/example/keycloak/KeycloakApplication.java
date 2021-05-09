@@ -1,13 +1,13 @@
-package com.example.postgresdemo;
+package com.example.keycloak;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PostgresDemoApplication {
+public class KeycloakApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PostgresDemoApplication.class, args);
+        SpringApplication.run(KeycloakApplication.class, args);
     }
 
 }
