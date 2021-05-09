@@ -10,6 +10,7 @@
         <module>getting-started-guides</module>
         <module>swagger</module>
         <module>anotation-customize</module>
+        <module>postgres-demo</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

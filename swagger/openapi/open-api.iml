@@ -20,15 +20,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.springdoc:springdoc-openapi-ui:1.4.6" level="project" />
-    <orderEntry type="library" name="Maven: org.springdoc:springdoc-openapi-webmvc-core:1.4.6" level="project" />
-    <orderEntry type="library" name="Maven: org.springdoc:springdoc-openapi-common:1.4.6" level="project" />
-    <orderEntry type="library" name="Maven: io.swagger.core.v3:swagger-models:2.1.4" level="project" />
-    <orderEntry type="library" name="Maven: io.swagger.core.v3:swagger-annotations:2.1.4" level="project" />
-    <orderEntry type="library" name="Maven: io.swagger.core.v3:swagger-integration:2.1.4" level="project" />
-    <orderEntry type="library" name="Maven: io.swagger.core.v3:swagger-core:2.1.4" level="project" />
-    <orderEntry type="library" name="Maven: io.github.classgraph:classgraph:4.8.69" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars:swagger-ui:3.32.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-logging:2.0.5.RELEASE" level="project" />
