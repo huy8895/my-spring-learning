@@ -13,9 +13,21 @@
 keycloak:
   auth-server-url: http://localhost:8180/auth
   principal-attribute: preferred_username
-  public-client: true
+#  public-client: true
   realm: SpringBootKeycloak
   resource: login-app
+  credentials:
+    secret: a3066b73-eff3-4229-8038-a19e8f4f2351
+  cors: true
+  ssl-required: external
+  bearer-only: true
+  use-resource-role-mappings: true
+
+
+custom:
+    properties:
+      keycloak-admin-username: admin
+      keycloak-admin-password: admin
 server:
   port: 8081
 spring:

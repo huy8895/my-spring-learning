@@ -10,8 +10,8 @@
         <module>getting-started-guides</module>
         <module>swagger</module>
         <module>anotation-customize</module>
-        <module>springboot-keycloak</module>
         <module>keycloak</module>
+        <module>resttemplate</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
