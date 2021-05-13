@@ -1,14 +1,16 @@
 package com.example.resttemplate.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -45,10 +47,22 @@ public class ProxyController {
                 Foo[].class);
         return ResponseEntity.ok(foos);
     }
+
+    @GetMapping("/foos-exchange")
+    public ResponseEntity<Object> getFoosExchange(@RequestBody List<String> stringList) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<List<String>> request = new HttpEntity<>(stringList,null);
+        ResponseEntity<Foo[]> response = restTemplate
+                .exchange(getListFoo, HttpMethod.POST, request, Foo[].class);
+        Foo[] foo = response.getBody();
+        return ResponseEntity.ok(foo);
+    }
 }
 
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 class Foo implements Serializable {
     private long id;
 
