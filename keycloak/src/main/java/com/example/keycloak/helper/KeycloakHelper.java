@@ -36,17 +36,17 @@ public class KeycloakHelper {
     @Value("${keycloak.realm}")
     private String REALM;
 
-    @Value("${custom.properties.keycloak-admin-username}")
-    private String USERNAME;
-
-    @Value("${custom.properties.keycloak-admin-password}")
-    private String PASSWORD;
-
     @Value("${keycloak.resource}")
     private String CLIENT_ID;
 
     @Value("${keycloak.credentials.secret}")
     private String CLIENT_SECRET;
+
+    @Value("${custom.properties.keycloak-admin-username}")
+    private String USERNAME;
+
+    @Value("${custom.properties.keycloak-admin-password}")
+    private String PASSWORD;
 
     private final KeycloakSpringBootProperties kclProperties;
     private final UserProfileJpaRepository upRepo;
@@ -112,7 +112,7 @@ public class KeycloakHelper {
 
     public void setPassword(UserProfile user, String password) {
         // login with admin user
-        Keycloak instance = getKeycloak();
+        Keycloak instance = getInstance();
         UsersResource usersResource = instance.realm(kclProperties.getRealm()).users();
         UserResource userResource = usersResource.get(user.getKeycloakId());
         userResource.resetPassword(credentialRepresentation(password));
@@ -130,23 +130,13 @@ public class KeycloakHelper {
             return;
 
         // login with admin user
-        Keycloak instance = getKeycloak();
+        Keycloak instance = getInstance();
         UsersResource usersResource = instance.realm(kclProperties.getRealm()).users();
         UserResource userResource = usersResource.get(user.get().getKeycloakId());
         List<UserSessionRepresentation> userSessions = userResource.getUserSessions();
 
         if (!userSessions.isEmpty())
             userResource.logout();
-    }
-
-    public Keycloak getKeycloak() {
-        return Keycloak.getInstance(kclProperties.getAuthServerUrl(),
-                kclProperties.getRealm(),
-                this.USERNAME,
-                this.PASSWORD,
-                kclProperties.getResource(),
-                kclProperties.getCredentials()
-                             .get("secret").toString());
     }
 
     public RealmResource getRealResource(){
@@ -161,9 +151,8 @@ public class KeycloakHelper {
                                                            .connectionPoolSize(10).build()
                                            ).build();
 
-//        keycloak.tokenManager().getAccessToken();
-        RealmResource realmResource = keycloak.realm(REALM);
-        return realmResource;
+        keycloak.tokenManager().getAccessToken();
+        return keycloak.realm(REALM);
     }
 
 }

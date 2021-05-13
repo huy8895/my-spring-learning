@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -30,12 +31,12 @@ public class UserProfileServiceIml implements UserProfileService {
 
     @Override
     public UserProfile save(UserProfileDto dto) {
-        Keycloak keycloak = keycloakHelper.getKeycloak();
-        UsersResource usersResource = keycloak.realm(kclProperties.getRealm()).users();
+        UsersResource users = keycloakHelper.getRealResource()
+                                            .users();
         UserRepresentation userRepresentation = new UserRepresentation();
         userRepresentation.setUsername(dto.getUsername());
         userRepresentation.setEnabled(true);
-        Response response = usersResource.create(userRepresentation);
+        Response response = users.create(userRepresentation);
         String keycloakUserId = CreatedResponseUtil.getCreatedId(response);
 
         final int status = response.getStatus();
@@ -45,9 +46,7 @@ public class UserProfileServiceIml implements UserProfileService {
         final String createdId = KeyCloakUtil.getCreatedId(response);
         // Reset password
         CredentialRepresentation newCredential = new CredentialRepresentation();
-        UserResource userResource = keycloakHelper.getInstance()
-                                                  .realm(kclProperties.getRealm())
-                                                  .users()
+        UserResource userResource = users
                                                   .get(createdId);
         newCredential.setType(CredentialRepresentation.PASSWORD);
         newCredential.setValue(dto.getPassword());
