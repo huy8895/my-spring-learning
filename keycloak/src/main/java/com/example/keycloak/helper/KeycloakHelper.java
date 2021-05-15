@@ -3,17 +3,20 @@ package com.example.keycloak.helper;
 import com.example.keycloak.constant.Constants;
 import com.example.keycloak.dao.UserProfileJpaRepository;
 import com.example.keycloak.entity.UserProfile;
+import com.example.keycloak.model.UserRegisterDto;
 import com.example.keycloak.util.KeyCloakUtil;
 import com.example.keycloak.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
+import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.keycloak.representations.idm.UserSessionRepresentation;
@@ -155,4 +158,36 @@ public class KeycloakHelper {
         return keycloak.realm(REALM);
     }
 
+    public AccessTokenResponse getToken(String username, String password) {
+        Keycloak keycloak = KeycloakBuilder.builder()
+                                           .serverUrl(SERVER_URL)
+                                           .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
+                                           .realm(REALM)
+                                           .clientId(CLIENT_ID)
+                                           .clientSecret(CLIENT_SECRET)
+                                           .resteasyClient(
+                                                   new ResteasyClientBuilder()
+                                                           .connectionPoolSize(10).build()
+                                           ).build();
+
+        return keycloak.tokenManager().getAccessToken();
+    }
+
+    public Object createAccount(UserRegisterDto dto) {
+        UserRepresentation newUser = new UserRepresentation();
+        newUser.setEnabled(true);
+        newUser.setUsername(dto.getUsername());
+
+        Keycloak instance = Keycloak.getInstance(SERVER_URL,REALM,USERNAME,PASSWORD,CLIENT_ID,CLIENT_SECRET);
+        UsersResource usersResource = instance.realm(REALM).users();
+        Response response = usersResource.create(newUser);
+        if (response.getStatus() == 201) {
+            String keycloakUserId = CreatedResponseUtil.getCreatedId(response);
+            UserResource userResource = usersResource.get(keycloakUserId);
+            userResource.resetPassword(credentialRepresentation(Constants.KC_PASS_DEFAULT));
+            return keycloakUserId;
+        } else {
+            throw new RuntimeException(String.valueOf(response.getStatus()));
+        }
+    }
 }

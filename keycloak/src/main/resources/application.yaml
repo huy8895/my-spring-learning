@@ -25,9 +25,9 @@ keycloak:
 
 
 custom:
-    properties:
-      keycloak-admin-username: huy8895
-      keycloak-admin-password: 12121212!q
+  properties:
+    keycloak-admin-username: huy8895
+    keycloak-admin-password: 12121212!q
 server:
   port: 8082
 spring:
