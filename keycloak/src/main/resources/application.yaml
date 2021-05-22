@@ -1,0 +1,50 @@
+
+## default connection pool
+
+## PostgreSQL
+
+#drop n create table again, good for testing, comment this in production
+
+#spring.output.ansi.enabled=ALWAYS
+
+#keycloak.security-constraints[0].authRoles[0]=user
+#keycloak.security-constraints[0].securityCollections[0].patterns[0]=/customers/*
+
+keycloak:
+  auth-server-url: http://localhost:8180/auth
+  principal-attribute: preferred_username
+#  public-client: true
+  realm: SpringBootKeycloak
+  resource: login-app
+  credentials:
+    secret: a3066b73-eff3-4229-8038-a19e8f4f2351
+  cors: true
+  ssl-required: external
+  bearer-only: true
+  use-resource-role-mappings: true
+
+
+custom:
+  properties:
+    keycloak-admin-username: huy8895
+    keycloak-admin-password: 12121212!q
+server:
+  port: 8082
+spring:
+  datasource:
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+    password: 1234
+    url: jdbc:postgresql://localhost:5432/springboot_keycloak
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    show-sql: true
+
